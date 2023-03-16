@@ -5,32 +5,28 @@ import Search from './components/search';
 import Footer from './layout/footer';
 import Header from './layout/header';
 import React from 'react';
+import DateFilter from './components/dateFilter';
 
 function App() {
 
   const [nasaMedia, setNasaMedia] = React.useState([])
 
-
   async function searchFiles(searchTerm) {
     const response = await fetch(`https://images-api.nasa.gov/search?q=${searchTerm}`)
-    console.log(response)
     const data = await response.json()
-    console.log(data)
+    console.log(data.collection.items)
     setNasaMedia(data.collection.items)
   }
 
   return (
     <div className="font-bold">
       <Header />
-      <div className='min-h-[calc(100vh-160px)]'>
-      <Search searchNasamediaGallery={(searchTerm) => searchFiles(searchTerm)} />
-        {/* <Router>
-          <Routes>
-            <Route path="/" element={<Search />} />
-            <Route path="/results" element={<MediaGallery />} />
-          </Routes>
-        </Router> */}
-        <MediaGallery />
+      <div className='min-h-[calc(100vh-160px)] container mx-auto px-4'>
+        <Search searchNasaMediaGallery={(searchTerm) => searchFiles(searchTerm)} />
+
+        <DateFilter />
+
+        <MediaGallery mediaItems={nasaMedia} />
       </div>
       <Footer />
     </div>
