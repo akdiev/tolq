@@ -25,3 +25,7 @@ p {
 .search-button {
   @apply bg-blue-500 text-white px-4 py-2 rounded-lg font-bold ml-2 h-full hover:bg-blue-600;
 }
+
+.Toastify__toast-body div {
+ @apply font-sans font-normal text-sm;
+}

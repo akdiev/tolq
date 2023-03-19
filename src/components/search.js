@@ -1,13 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import DateFilter from './dateFilter'
 
 export default function Search(props) {
     const [searchTerm, setSearchTerm] = React.useState('')
     const [hasErrors, setHasErrors] = React.useState(null)
+    const navigate = useNavigate()
 
     function handleSubmit(e) {
         e.preventDefault()
         if (searchTerm === '') return setHasErrors(true)
-        props.searchNasaMediaGallery(searchTerm)
+
+        navigate('/search?q=' + searchTerm + '&media_type=image')
         setHasErrors(false)
     }
 
@@ -29,6 +33,9 @@ export default function Search(props) {
                     </p>
                 </form>
             </div>
+
+        <DateFilter filterItems={(filters) => props.filterByDate(filters)}/>
+
         </div>
     )
 }

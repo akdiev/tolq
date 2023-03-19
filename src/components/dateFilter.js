@@ -1,37 +1,69 @@
 import React from 'react'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 
-export default function DateFilter() {
+export default function DateFilter(props) {
+
+    const [yearOptions, setYearOptions] = React.useState([])
 
     const [dateFilters, setDateFilters] = React.useState({
-        startDate: new Date(),
-        endDate: new Date()
+        startYear: new Date().getFullYear(),
+        endYear: new Date().getFullYear(),
+        isFiltered: false
     })
 
-    function setStartDate(date) {
+    function setStartYear(startYear) {
         setDateFilters({
             ...dateFilters,
-            startDate: date
+            startYear: startYear,
+            isFiltered: true
         })
     }
 
-    function setEndDate(date) {
+    function setEndYear(endYear) {
+        console.log(endYear)
         setDateFilters({
             ...dateFilters,
-            endDate: date
+            endYear: endYear,
+            isFiltered: true
         })
+    }
+
+    function handleDateFilter() {
+        if (!dateFilters.isFiltered) return;
+        if (Number(dateFilters.startYear) > Number(dateFilters.endYear)) {
+            return setEndYear(dateFilters.startYear)
+        }
+        if (Number(dateFilters.endYear) < Number(dateFilters.startYear)) {
+            return setStartYear(dateFilters.endYear)
+        }
+        props.filterItems(dateFilters)
     }
 
     React.useEffect(() => {
         console.log(dateFilters)
+        handleDateFilter()
+
     }, [dateFilters])
+
+    React.useEffect(() => {
+        for (let i = 1900; i <= new Date().getFullYear(); i++) {
+            setYearOptions(prev => [...prev, i])
+        }
+    }, [])
 
     return (
         <div className='flex w-min gap-x-2 mb-6'>
-            <DatePicker onChange={(e) => setStartDate(e)} selected={dateFilters.startDate} className="h-[36px] w-[150px] border border-gray-300 rounded-lg px-2" placeholderText='Select start date' />
-            <DatePicker onChange={(e) => setEndDate(e)} selected={dateFilters.endDate} className="h-[36px] w-[150px] border border-gray-300 rounded-lg px-2" placeholderText='Select end date'/>
+            <select onChange={(e) => setStartYear(e.target.value)} value={dateFilters.startYear} className="h-[36px] w-[150px] border border-gray-300 rounded-lg px-2" placeholder='Select start date'>
+                {yearOptions.map((year, index) => (
+                    <option key={index} value={year}>{year}</option>
+                ))}
+            </select>
+            <select value={dateFilters.endYear} onChange={(e) => setEndYear(e.target.value)} className="h-[36px] w-[150px] border border-gray-300 rounded-lg px-2" placeholder='Select end date'>
+                {yearOptions.map((year, index) => (
+                    <option key={index} value={year}>{year}</option>
+                ))}
+            </select>
         </div>
     )
 }
+
