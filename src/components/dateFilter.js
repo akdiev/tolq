@@ -53,12 +53,12 @@ export default function DateFilter(props) {
 
     return (
         <div className='flex w-min gap-x-2 mb-6'>
-            <select onChange={(e) => setStartYear(e.target.value)} value={dateFilters.startYear} className="h-[36px] w-[150px] border border-gray-300 rounded-lg px-2" placeholder='Select start date'>
+            <select onChange={(e) => setStartYear(e.target.value)} value={dateFilters.startYear} className="h-[36px] w-[150px] border-2 border-gray-300 rounded-lg px-2" placeholder='Select start date'>
                 {yearOptions.map((year, index) => (
                     <option key={index} value={year}>{year}</option>
                 ))}
             </select>
-            <select value={dateFilters.endYear} onChange={(e) => setEndYear(e.target.value)} className="h-[36px] w-[150px] border border-gray-300 rounded-lg px-2" placeholder='Select end date'>
+            <select value={dateFilters.endYear} onChange={(e) => setEndYear(e.target.value)} className="h-[36px] w-[150px] border-2 border-gray-300 rounded-lg px-2" placeholder='Select end date'>
                 {yearOptions.map((year, index) => (
                     <option key={index} value={year}>{year}</option>
                 ))}
